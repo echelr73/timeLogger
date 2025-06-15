@@ -1,0 +1,52 @@
+{
+    "database": "training_timer.db",
+    "version": 1,
+    "encrypted": false,
+    "mode": "full",
+    "tables": [
+        {
+            "name": "User",
+            "schema": [
+                { "column": "Id", "value": "INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT" },
+                { "column": "Name", "value": "TEXT NOT NULL" },
+                { "column": "Email", "value": "TEXT NOT NULL UNIQUE" },
+                { "column": "Password", "value": "TEXT NOT NULL" }
+            ],
+            "values": [
+                [1, "Admin", "eche_lr73@hotmail.com", "Admin123"]
+            ]
+        },
+        {
+            "name": "Configuration",
+            "schema": [
+                { "column": "Id", "value": "INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT" },
+                { "column": "BeepSounds", "value": "BOOLEAN NOT NULL" },
+                { "column": "BeepSoundSelected", "value": "TEXT NOT NULL" },
+                { "column": "SoundVolume", "value": "INTEGER NOT NULL" },
+                { "column": "VoiceNotification", "value": "BOOLEAN NOT NULL" },
+                { "column": "DuckingEffect", "value": "BOOLEAN NOT NULL" },
+                { "column": "UserId", "value": "INTEGER NOT NULL", "foreignkey": "UserId REFERENCES User(Id) ON DELETE CASCADE" }
+            ],
+            "values": [
+                [1, true, "Normal", 10, true, true, 1]
+            ]
+        },
+        {
+            "name": "TrainingStructure",
+            "schema": [
+                { "column": "Id", "value": "INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT" },
+                { "column": "Name", "value": "TEXT NOT NULL" },
+                { "column": "PreparationTime", "value": "INTEGER NOT NULL" },
+                { "column": "TrainingTime", "value": "INTEGER NOT NULL" },
+                { "column": "RestTime", "value": "INTEGER NOT NULL" },
+                { "column": "Rounds", "value": "INTEGER NOT NULL" },
+                { "column": "Series", "value": "INTEGER NOT NULL" },
+                { "column": "RestBetweenSeries", "value": "INTEGER NOT NULL" },
+                { "column": "UserId", "value": "INTEGER NOT NULL", "foreignkey": "UserId REFERENCES User(Id) ON DELETE CASCADE" }
+            ],
+            "values": [
+                [1, "Tabata", 180, 1200, 60, 8, 1, 360, 1]
+            ]
+        }
+    ]
+}
