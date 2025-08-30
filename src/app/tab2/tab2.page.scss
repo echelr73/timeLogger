@@ -1,0 +1,39 @@
+ion-row:last-child{
+    border-bottom: 0.5px solid #ccc;
+}
+
+.log-table .data-col {
+    border-right: 0.5px solid #ccc;
+}
+
+.log-table .data-col:first-child {
+    border-left: 0.5px solid #ccc;
+}
+
+.header-col {
+    border-right: 0.5px solid #ccc;
+}
+
+.header-col:first-child {
+    border-left: 0.5px solid #ccc;
+}
+
+.header-row {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    font-size: 14px;
+    border-bottom: 0.5px solid #ccc;
+    border-top: 0.5px solid #ccc;
+}
+
+.data-row {
+    font-size: 14px;
+}
+
+.data-row.group-white {
+    background-color: #ffffff;
+}
+
+.data-row.group-grey {
+    background-color: #f5f5f5;
+}

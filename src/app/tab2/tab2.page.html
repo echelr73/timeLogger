@@ -1,17 +1,78 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+    <ion-title>Registros filtrados</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <!-- Filtros de fecha -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6">
+        <ion-item>
+          <ion-label>Desde</ion-label>
+          <ion-datetime-button datetime="startDate"></ion-datetime-button>
+        </ion-item>
+        <ion-modal keep-contents-mounted="true">
+          <ion-datetime
+            id="startDate"
+            presentation="date"
+            locale="es-ES"
+            show-default-buttons="true"
+            [(ngModel)]="startDate"
+          ></ion-datetime>
+        </ion-modal>
+      </ion-col>
+
+      <ion-col size="12" size-md="6">
+        <ion-item>
+          <ion-label>Hasta</ion-label>
+          <ion-datetime-button datetime="endDate"></ion-datetime-button>
+        </ion-item>
+        <ion-modal keep-contents-mounted="true">
+          <ion-datetime
+            id="endDate"
+            presentation="date"
+            locale="es-ES"
+            show-default-buttons="true"
+            [(ngModel)]="endDate"
+          ></ion-datetime>
+        </ion-modal>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button expand="block" (click)="onSearch()">
+          Buscar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Tabla con los registros -->
+  <ion-grid class="log-table">
+    <ion-row class="header-row">
+      <ion-col size="2" class="header-col">Id</ion-col>
+      <ion-col size="5" class="header-col">Fecha</ion-col>
+      <ion-col size="2" class="header-col">Tipo</ion-col>
+      <ion-col size="3" class="header-col">Tiempo</ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let log of registrosFiltrados; let i = index" class="data-row" [ngClass]="getRowGroup(i) % 2 == 0 ? 'group-white' : 'group-grey'">
+      <ion-col size="2" class="data-col">{{ log.Id }}</ion-col>
+      <ion-col size="5" class="data-col">{{ log.Timestamp | date:'short' }}</ion-col>
+      <ion-col size="2" class="data-col">{{ log.IsActive ? 'Inicio' : 'Fin' }}</ion-col>
+      <ion-col size="3" class="data-col">{{ getTimeDiff(log) }}</ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Total acumulado -->
+  <ion-card *ngIf="totalTiempo">
+    <ion-card-content>
+      <strong>Total acumulado:</strong> {{ totalTiempo }}
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

@@ -154,4 +154,35 @@ export class SqlliteManagerService {
       return changes;
     }).catch(error => Promise.reject(error));
   }
+
+  async getAllLogs(startDate?: string, endDate?: string) {
+    let sql = 'SELECT * FROM logger';
+    let values: any[] = [];
+  
+    if (startDate && endDate) {
+      sql += ' WHERE TimeStamp BETWEEN ? AND ? ORDER BY TimeStamp ASC';
+      values.push(startDate, endDate);
+    } else {
+      sql += ' ORDER BY TimeStamp ASC';
+    }
+  
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.query({
+      database: dbName,
+      statement: sql,
+      values: values
+    })
+      .then((response: capSQLiteValues) => {
+        let logs: Log[] = [];
+        for (let index = 0; index < response.values.length; index++) {
+          const row = response.values[index];
+          let log = row as Log;
+          logs.push(log);
+        }
+        return Promise.resolve(logs);
+      })
+      .catch(error => Promise.reject(error));
+  }
+ 
+  
 }
