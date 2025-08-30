@@ -1,17 +1,36 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <!-- Fecha y hora actual -->
+  <div class="datetime-label ion-text-center">
+    <div class="date">
+      {{ currentDate }}
+    </div>
+    <div class="time">
+      {{ currentTime }}
+    </div>
+  </div>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <!-- Botón Play / Stop -->
+  <div class="button-container">
+    <ion-button shape="round" size="large" expand="block" color="primary" (click)="toggleLogging()">
+      <ion-icon [name]="isLogging ? 'stop' : 'play'" slot="icon-only"></ion-icon>
+    </ion-button>
+  </div>
+
+  <h3 class="log-title">
+    Últimos registros
+  </h3>
+
+  <ion-list class="log-list">
+    <ion-item *ngFor="let item of lastLogs">
+      <ion-label>
+        <h2 class="log-date">{{ formatDate(item.Timestamp) }}</h2>
+        <p class="log-type">
+          {{ item.IsActive ? 'Inicio' : 'Fin' }}
+          <span *ngIf="!item.IsActive && getTimeDiff(item)" class="bold-diff"> - {{ getTimeDiff(item) }}</span>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

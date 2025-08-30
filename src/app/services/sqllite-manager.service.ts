@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CapacitorSQLite, JsonSQLite } from '@capacitor-community/sqlite';
+import { CapacitorSQLite, capSQLiteChanges, capSQLiteValues, JsonSQLite } from '@capacitor-community/sqlite';
 import { Device } from '@capacitor/device';
 import { Preferences } from '@capacitor/preferences';
 import { AlertController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
+import { Log } from '../models/log';
 
 @Injectable({
   providedIn: 'root'
@@ -89,5 +90,68 @@ export class SqlliteManagerService {
       this.dbName = dbName.value;
     }
     return this.dbName;
+  }
+
+  async getLogs() {
+    let sql = 'SELECT * FROM logger ORDER BY 2';
+
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.query({
+      database: dbName,
+      statement: sql,
+      values: []
+    }).then((response: capSQLiteValues) => {
+      let logs: Log[] = [];
+      for (let index = 0; index < response.values.length; index++) {
+        const row = response.values[index];
+        let log = row as Log;
+        logs.push(log);
+      }
+      return Promise.resolve(logs);
+    }).catch(error => Promise.reject(error));
+
+  }
+
+  async getLastLogs(limit: number) {
+    let sql = 'SELECT * FROM logger ORDER BY TimeStamp DESC LIMIT ?';
+
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.query({
+      database: dbName,
+      statement: sql,
+      values: [limit]
+    }).then((response: capSQLiteValues) => {
+      let logs: Log[] = [];
+      for (let index = 0; index < response.values.length; index++) {
+        const row = response.values[index];
+        let log = row as Log;
+        logs.push(log);
+      }
+      return Promise.resolve(logs);
+    }).catch(error => Promise.reject(error));
+
+  }
+
+  async saveLog(log: Log) {
+    const dbName = await this.getDBName();
+    let sql = 'INSERT INTO logger (timeStamp, isActive) VALUES (?,?)';
+    let values = [log.Timestamp, log.IsActive];
+
+    return CapacitorSQLite.executeSet({
+      database: dbName,
+      set: [
+        {
+          statement: sql,
+          values: values
+        }
+      ]
+    }).then((changes: capSQLiteChanges) => {
+      if (this.isWeb) {
+        CapacitorSQLite.saveToStore({
+          database: dbName
+        });
+      }
+      return changes;
+    }).catch(error => Promise.reject(error));
   }
 }

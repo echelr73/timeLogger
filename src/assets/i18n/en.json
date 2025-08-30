@@ -10,6 +10,8 @@
     "label.edit.student": "Edit student",
     "label.back": "Back",
     "label.success": "Success!",
+    "label.success.message.add.record": "Record added!",
+    "label.error.message.add.record": "Error trying add record", 
     "label.success.message.add.student": "Student added!",
     "label.error.message.add.student": "Error trying add student",
     "label.success.message.edit.student": "Student modified!",

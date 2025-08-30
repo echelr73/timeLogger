@@ -10,6 +10,8 @@
     "label.edit.student": "Editar estudiante",
     "label.back": "Volver",
     "label.success": "¡Éxito!",
+    "label.success.message.add.record": "¡Registro añadido!",
+    "label.error.message.add.record": "Error al añadir el registro",
     "label.success.message.add.student": "¡Estudiante añadido!",
     "label.error.message.add.student": "Error al añadir el estudiante",
     "label.success.message.edit.student": "¡Estudiante modificado!",

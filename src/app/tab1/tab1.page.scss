@@ -1,0 +1,66 @@
+.datetime-label {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+
+    .date {
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    .time {
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: 4px;
+    }
+}
+
+.log-title {
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-left: 16px;
+    margin-top: 20px;
+    color: #1E3A8A; // Azul oscuro
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    ion-button {
+        width: 15vh;
+        height: 15vh;
+        font-size: 2rem;
+        --border-radius: 50%;
+    }
+}
+
+.log-list {
+    padding: 0 16px;
+
+    ion-item {
+        --background: #fff;
+        --inner-padding-end: 0;
+    }
+
+    .log-date {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 4px;
+    }
+
+    .log-type {
+        font-size: 14px;
+        color: #4B5563; // Gris oscuro
+        margin: 0;
+    }
+
+    .bold-diff {
+        font-weight: bold;
+        color: #1E40AF;
+    }
+}
