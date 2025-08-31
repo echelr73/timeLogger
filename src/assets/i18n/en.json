@@ -49,5 +49,18 @@
     "label.date.paid": "Date paid",
     "label.paid": "Paid out",
     "label.no.paid": "No pay",
-    "label.success.message.paid.class": "Class paid"
+    "label.success.message.paid.class": "Class paid",
+    "label.last.records": "Last records",
+    "label.id": "ID",
+    "label.date": "Date",
+    "label.type": "Type",
+    "label.duration": "Duration",
+    "label.statistics": "Statistics",
+    "label.total.time": "Total time:",
+    "label.since": "Since:",
+    "label.to": "To:",
+    "label.all.records": "All records",
+    "label.start": "Start",
+    "label.end": "End",
+    "label.no.records": "There are not records"
 }

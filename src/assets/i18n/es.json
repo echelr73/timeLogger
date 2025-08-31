@@ -49,5 +49,18 @@
     "label.date.paid": "Fecha pago",
     "label.paid": "Pagado",
     "label.no.paid": "No pagado",
-    "label.success.message.paid.class": "Clase pagada"
+    "label.success.message.paid.class": "Clase pagada",
+    "label.last.records": "Últimos registros",
+    "label.id": "ID",
+    "label.date": "Fecha",
+    "label.type": "Tipo",
+    "label.duration": "Duración",
+    "label.statistics": "Estadísticas",
+    "label.total.time": "Tiempo total:",
+    "label.since": "Desde:",
+    "label.to": "Hasta:",
+    "label.all.records": "Todos los registros",
+    "label.start": "Inicio",
+    "label.end": "Fin",
+    "label.no.records": "No hay registros"
 }

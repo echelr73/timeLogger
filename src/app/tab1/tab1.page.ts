@@ -21,7 +21,7 @@ export class Tab1Page implements OnInit {
   constructor(
     private sqliteService: SqlliteManagerService,
     private alertService: AlertService,
-    private translateService: TranslateService
+    private translate: TranslateService
   ) {
     this.actualLog = new Log();
     this.lastLogs = [];
@@ -58,16 +58,16 @@ export class Tab1Page implements OnInit {
 
     await this.sqliteService.saveLog(this.actualLog).then(() => {
       this.alertService.alertMessage(
-        this.translateService.instant('label.success'),
-        this.translateService.instant('label.success.message.add.record')
+        this.translate.instant('label.success'),
+        this.translate.instant('label.success.message.add.record')
       );
       this.isLogging = !this.isLogging;
       this.getLastLogs();
       console.log(this.lastLogs);
     }).catch(error => {
       this.alertService.alertMessage(
-        this.translateService.instant('label.error'),
-        this.translateService.instant('label.error.message.add.record')
+        this.translate.instant('label.error'),
+        this.translate.instant('label.error.message.add.record')
       );
     });
 

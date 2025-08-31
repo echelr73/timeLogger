@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Registros filtrados</ion-title>
+    <ion-title>{{'label.statistics' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,33 +11,28 @@
     <ion-row>
       <ion-col size="12" size-md="6">
         <ion-item>
-          <ion-label>Desde</ion-label>
+          <ion-label>{{'label.since' | translate}}</ion-label>
           <ion-datetime-button datetime="startDate"></ion-datetime-button>
         </ion-item>
-        <ion-modal keep-contents-mounted="true">
-          <ion-datetime
-            id="startDate"
-            presentation="date"
-            locale="es-ES"
-            show-default-buttons="true"
-            [(ngModel)]="startDate"
-          ></ion-datetime>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime id="startDate" presentation="date" [locale]="lang" show-default-buttons="true"
+              [(ngModel)]="startDate"></ion-datetime>
+          </ng-template>
         </ion-modal>
       </ion-col>
 
       <ion-col size="12" size-md="6">
         <ion-item>
-          <ion-label>Hasta</ion-label>
+          <ion-label>{{'label.to' | translate}}</ion-label>
           <ion-datetime-button datetime="endDate"></ion-datetime-button>
         </ion-item>
-        <ion-modal keep-contents-mounted="true">
-          <ion-datetime
-            id="endDate"
-            presentation="date"
-            locale="es-ES"
-            show-default-buttons="true"
-            [(ngModel)]="endDate"
-          ></ion-datetime>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime id="endDate" presentation="date" [locale]="lang" show-default-buttons="true"
+              [(ngModel)]="endDate"></ion-datetime>
+          </ng-template>
+
         </ion-modal>
       </ion-col>
     </ion-row>
@@ -45,7 +40,12 @@
     <ion-row>
       <ion-col class="ion-text-center">
         <ion-button expand="block" (click)="onSearch()">
-          Buscar
+          {{'label.filter' | translate}}
+        </ion-button>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-button expand="block" (click)="loadRecords()">
+          {{'label.all.records' | translate}}
         </ion-button>
       </ion-col>
     </ion-row>
@@ -54,24 +54,30 @@
   <!-- Tabla con los registros -->
   <ion-grid class="log-table">
     <ion-row class="header-row">
-      <ion-col size="2" class="header-col">Id</ion-col>
-      <ion-col size="5" class="header-col">Fecha</ion-col>
-      <ion-col size="2" class="header-col">Tipo</ion-col>
-      <ion-col size="3" class="header-col">Tiempo</ion-col>
+      <ion-col size="2" class="header-col">{{'label.id' | translate}}</ion-col>
+      <ion-col size="5" class="header-col">{{'label.date' | translate}}</ion-col>
+      <ion-col size="2" class="header-col">{{'label.type' | translate}}</ion-col>
+      <ion-col size="3" class="header-col">{{'label.duration' | translate}}</ion-col>
     </ion-row>
 
-    <ion-row *ngFor="let log of registrosFiltrados; let i = index" class="data-row" [ngClass]="getRowGroup(i) % 2 == 0 ? 'group-white' : 'group-grey'">
+    <ion-row *ngFor="let log of registrosFiltrados; let i = index" class="data-row">
       <ion-col size="2" class="data-col">{{ log.Id }}</ion-col>
-      <ion-col size="5" class="data-col">{{ log.Timestamp | date:'short' }}</ion-col>
-      <ion-col size="2" class="data-col">{{ log.IsActive ? 'Inicio' : 'Fin' }}</ion-col>
+      <ion-col size="5" class="data-col">{{ formatDate(log.Timestamp) }}</ion-col>
+      <ion-col size="2" class="data-col">{{ log.IsActive ? ('label.start' | translate) : ('label.end' | translate) }}</ion-col>
       <ion-col size="3" class="data-col">{{ getTimeDiff(log) }}</ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="registrosFiltrados.length === 0">
+      <ion-col class="ion-text-center">
+        {{'label.no.records' | translate}}
+      </ion-col>
     </ion-row>
   </ion-grid>
 
   <!-- Total acumulado -->
   <ion-card *ngIf="totalTiempo">
     <ion-card-content>
-      <strong>Total acumulado:</strong> {{ totalTiempo }}
+      <strong>{{'label.total.time' | translate}}</strong> {{ totalTiempo }}
     </ion-card-content>
   </ion-card>
 

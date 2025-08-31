@@ -12,12 +12,16 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { defineCustomElements as jeepSqlite } from 'jeep-sqlite/loader';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 
 jeepSqlite(window);
 
 export function HttpLoaderFactory(http: HttpClient){
   return new TranslateHttpLoader(http, './assets/i18n/', '.json')
 }
+
+registerLocaleData(localeEs);
 
 @NgModule({
   declarations: [AppComponent],

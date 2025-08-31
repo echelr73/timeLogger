@@ -18,7 +18,7 @@
   </div>
 
   <h3 class="log-title">
-    Últimos registros
+    {{'label.last.records' | translate}}
   </h3>
 
   <ion-list class="log-list">
@@ -26,7 +26,7 @@
       <ion-label>
         <h2 class="log-date">{{ formatDate(item.Timestamp) }}</h2>
         <p class="log-type">
-          {{ item.IsActive ? 'Inicio' : 'Fin' }}
+          {{ item.IsActive ? ('label.start' | translate) : ('label.end' | translate) }}
           <span *ngIf="!item.IsActive && getTimeDiff(item)" class="bold-diff"> - {{ getTimeDiff(item) }}</span>
         </p>
       </ion-label>
