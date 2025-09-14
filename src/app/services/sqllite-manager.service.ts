@@ -183,6 +183,23 @@ export class SqlliteManagerService {
       })
       .catch(error => Promise.reject(error));
   }
+
+  async getLastLog() {
+    let sql = 'SELECT * FROM logger ORDER BY TimeStamp DESC LIMIT 1';
+
+    const dbName = await this.getDBName();
+    return CapacitorSQLite.query({
+      database: dbName,
+      statement: sql,
+      values: []
+    }).then((response: capSQLiteValues) => {
+      let log: Log;
+      log = response.values[0] as Log;
+      console.log("Service: ", log);
+      return Promise.resolve(log.IsActive);
+    }).catch(error => Promise.reject(error));
+
+  }
  
   
 }

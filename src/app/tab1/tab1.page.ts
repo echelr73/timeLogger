@@ -14,7 +14,7 @@ export class Tab1Page implements OnInit {
 
   currentDate: string = '';
   currentTime: string = '';
-  isLogging: boolean;
+  isLogging = false;
   actualLog: Log;
   lastLogs: Log[];
 
@@ -25,7 +25,7 @@ export class Tab1Page implements OnInit {
   ) {
     this.actualLog = new Log();
     this.lastLogs = [];
-    this.isLogging = false;
+    this.sqliteService.getLastLog().then(val => this.isLogging = val);
   }
 
   ngOnInit() {
