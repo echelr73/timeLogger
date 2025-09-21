@@ -57,15 +57,15 @@ export class Tab1Page implements OnInit {
       IsActive: !this.isLogging      // true si estaba apagado, false si estaba encendido
     };
 
-    await this.sqliteService.saveLog(this.actualLog).then(() => {
+    await this.sqliteService.saveLog(this.actualLog).then(async () => {
       this.alertService.alertMessage(
         this.translate.instant('label.success'),
         this.translate.instant('label.success.message.add.record')
       );
-      if (!this.isLogging){
+      if (!this.isLogging) {
         console.log('Envio notificacion');
-        this.scheduleEndOfDayNotification();
-      } 
+        await this.scheduleEndOfDayNotification();
+      }
       this.isLogging = !this.isLogging;
       this.getLastLogs();
       console.log(this.lastLogs);
@@ -103,25 +103,22 @@ export class Tab1Page implements OnInit {
 
   async scheduleEndOfDayNotification() {
     const now = new Date();
-    const endOfDay = new Date();
-    endOfDay.setHours(23, 59, 0, 0);
-    now.setMinutes(now.getMinutes() + 1);
+    const notifyTime = new Date(now.getTime() + 1 * 60 * 1000); // 1 minuto en el futuro
+    const id = new Date().getTime();
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          id: id,
+          title: 'Registro activo',
+          body: 'Tenés un registro activo, cerralo antes de las 00:00.',
+          schedule: { at: notifyTime },
+          smallIcon: 'ic_stat_icon_config_sample', // asegúrate de que exista
+          sound: 'default', // mejor usar un sonido válido
+        },
+      ],
+    });
 
-    // Solo si todavía falta para las 23:59
-    //if (endOfDay > now) {
-      await LocalNotifications.schedule({
-        notifications: [
-          {
-            id: 1,
-            title: 'Registro activo',
-            body: 'Tenés un registro activo, cerralo antes de las 00:00.',
-            schedule: { at: now },
-            sound: null,
-            smallIcon: 'ic_stat_icon_config_sample', // opcional
-          },
-        ],
-      });
-    //}
+    console.log('Notificación programada para:', notifyTime);
   }
 
 }
