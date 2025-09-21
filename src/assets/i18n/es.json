@@ -62,5 +62,8 @@
     "label.all.records": "Todos los registros",
     "label.start": "Inicio",
     "label.end": "Fin",
-    "label.no.records": "No hay registros"
+    "label.no.records": "No hay registros",
+    "label.installApp": "¿Quierés instalar la app?",
+    "label.installApp.no": "No",
+    "label.installApp.yes": "Instalar"
 }

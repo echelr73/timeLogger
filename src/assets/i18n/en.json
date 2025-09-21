@@ -62,5 +62,8 @@
     "label.all.records": "All records",
     "label.start": "Start",
     "label.end": "End",
-    "label.no.records": "There are not records"
+    "label.no.records": "There are not records",
+    "label.installApp": "Do you want to install the app?",
+    "label.installApp.no": "No",
+    "label.installApp.yes": "Install"
 }

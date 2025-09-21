@@ -1,0 +1,26 @@
+.install-banner {
+    position: fixed;
+    top: 2%;
+    right: 2%;
+    background: #ffffff;
+    color: black;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    z-index: 9999;
+    display: flex;
+    justify-content: space-center;
+    align-items: center;
+  }
+  
+  .install-banner button {
+    background-color: #3880ff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+  
+  button {
+    margin-left: 1%;
+  }

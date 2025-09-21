@@ -4,6 +4,8 @@ import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SqlliteManagerService } from './services/sqllite-manager.service';
 import { AlertService } from './services/alert.service';
+import { App as CapacitorApp } from '@capacitor/app';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -15,10 +17,13 @@ export class AppComponent {
 
   public isWeb: boolean;
   public load: boolean;
+  deferredPrompt: any = null;
+  showInstallButton = true;
 
   constructor( 
     private translate: TranslateService,
     private platform: Platform,
+    private router: Router,
     private sqliteService: SqlliteManagerService,
     private alertService: AlertService
   ) {
@@ -50,6 +55,42 @@ export class AppComponent {
             );
           }
       });
+      CapacitorApp.addListener('backButton', () => {
+        const currentUrl = this.router.url;
+        if (currentUrl.includes('/tabs/tab2')) {
+          const confirmExit = confirm('¿Querés salir de la app?');
+          if (confirmExit) {
+            CapacitorApp.exitApp();
+          }
+        }
+      });
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        this.deferredPrompt = e;
+        this.showInstallButton = true;
+      });
     });
+  }
+
+  installPWA() {
+    if (this.deferredPrompt) {
+      this.deferredPrompt.prompt();
+
+      this.deferredPrompt.userChoice.then((choiceResult: any) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('PWA instalada ✅');
+        } else {
+          console.log('PWA no fue instalada ❌');
+        }
+        this.deferredPrompt = null;
+        this.showInstallButton = false;
+      });
+    }
+  }
+
+  notInstallPWA(){
+    this.deferredPrompt = null;
+    this.showInstallButton = false;
   }
 }
