@@ -1,5 +1,5 @@
 {
-  "name": "manageClass_app",
+  "name": "time-logger-app",
   "integrations": {
     "capacitor": {}
   },
