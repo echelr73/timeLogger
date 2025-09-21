@@ -18,7 +18,7 @@ export class AppComponent {
   public isWeb: boolean;
   public load: boolean;
   deferredPrompt: any = null;
-  showInstallButton = true;
+  showInstallButton = false;
 
   constructor( 
     private translate: TranslateService,
