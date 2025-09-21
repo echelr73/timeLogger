@@ -72,7 +72,7 @@ export class Tab1Page implements OnInit {
     }).catch(error => {
       this.alertService.alertMessage(
         this.translate.instant('label.error'),
-        this.translate.instant('label.error.message.add.record')
+        this.translate.instant(error.message || 'label.error.message.add.record')
       );
     });
 
