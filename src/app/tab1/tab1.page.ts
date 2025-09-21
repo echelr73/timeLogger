@@ -102,23 +102,33 @@ export class Tab1Page implements OnInit {
   }
 
   async scheduleEndOfDayNotification() {
-    const now = new Date();
-    const notifyTime = new Date(now.getTime() + 1 * 60 * 1000); // 1 minuto en el futuro
-    const id = new Date().getTime();
-    await LocalNotifications.schedule({
-      notifications: [
-        {
-          id: id,
-          title: 'Registro activo',
-          body: 'Tenés un registro activo, cerralo antes de las 00:00.',
-          schedule: { at: notifyTime },
-          smallIcon: 'ic_stat_icon_config_sample', // asegúrate de que exista
-          sound: 'default', // mejor usar un sonido válido
-        },
-      ],
-    });
+    const perm = await LocalNotifications.requestPermissions();
+    if (perm.display !== 'granted') {
+      this.alertService.alertMessage('Notificación', 'Permiso de notificaciones no concedido');
+      return;
+    }
 
-    console.log('Notificación programada para:', notifyTime);
+    const now = new Date();
+    const notifyTime = new Date(now.getTime() + 3 * 60 * 1000); // 1 minuto en el futuro
+    const id = new Date().getTime();
+    try {
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            id: id,
+            title: 'Registro activo',
+            body: 'Tenés un registro activo, cerralo antes de las 00:00.',
+            schedule: { at: notifyTime },
+            smallIcon: 'ic_stat_icon_config_sample', // asegúrate de que exista
+            sound: 'default', // mejor usar un sonido válido
+          },
+        ],
+      });
+
+      this.alertService.alertMessage('Notificación', 'Notificación programada correctamente para ' + notifyTime.toLocaleTimeString());
+    } catch (error) {
+      this.alertService.alertMessage('Error', 'No se pudo programar la notificación');
+    }
   }
 
 }
