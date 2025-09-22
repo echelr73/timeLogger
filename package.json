@@ -1,13 +1,13 @@
 {
   "name": "time-logger-app",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "prebuild": "node bump-version.js",
-    "build": "ionic build",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
