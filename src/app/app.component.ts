@@ -7,6 +7,7 @@ import { AlertService } from './services/alert.service';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Router } from '@angular/router';
 import packageJson from '../../package.json';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-root',
@@ -48,13 +49,22 @@ export class AppComponent {
       }
 
       this.sqliteService.init();
-      this.sqliteService.dbReady.subscribe(isReady => {
+      this.sqliteService.dbReady.subscribe(async isReady => {
           this.load = isReady;
           if (this.load) {
             this.alertService.alertMessage(
               this.translate.instant('Bienvenido'),
               this.translate.instant('La base de cargo correctamente')
             );
+
+            const permission = await LocalNotifications.checkPermissions();
+            if (permission.display !== 'granted') {
+              this.alertService.alertMessage(
+                this.translate.instant('Atención'),
+                this.translate.instant('Para recibir notificaciones, por favor habilita los permisos en la configuración de la aplicación.')
+              );
+              await LocalNotifications.requestPermissions();
+            }
           }
       });
       CapacitorApp.addListener('backButton', () => {

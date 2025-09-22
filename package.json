@@ -1,6 +1,6 @@
 {
   "name": "time-logger-app",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
@@ -26,6 +26,7 @@
     "@angular/router": "^19.0.0",
     "@angular/service-worker": "^19.0.6",
     "@capacitor-community/sqlite": "^6.0.2",
+    "@capacitor/android": "^6.2.0",
     "@capacitor/app": "6.0.2",
     "@capacitor/core": "6.2.0",
     "@capacitor/device": "^6.0.2",

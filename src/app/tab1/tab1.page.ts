@@ -4,6 +4,7 @@ import { Log } from '../models/log';
 import { AlertService } from '../services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-tab1',
@@ -22,7 +23,8 @@ export class Tab1Page implements OnInit {
   constructor(
     private sqliteService: SqlliteManagerService,
     private alertService: AlertService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private notificationService: NotificationService
   ) {
     this.actualLog = new Log();
     this.lastLogs = [];
@@ -57,13 +59,16 @@ export class Tab1Page implements OnInit {
       IsActive: !this.isLogging      // true si estaba apagado, false si estaba encendido
     };
 
-    await this.sqliteService.saveLog(this.actualLog).then(async () => {
+    this.sqliteService.saveLog(this.actualLog).then(async () => {
       this.alertService.alertMessage(
         this.translate.instant('label.success'),
         this.translate.instant('label.success.message.add.record')
       );
       if (!this.isLogging) {
-        console.log('Envio notificacion');
+        this.alertService.alertMessage(
+          this.translate.instant('Va a programar notificacion'),
+          this.translate.instant('true')
+        );
         await this.scheduleEndOfDayNotification();
       }
       this.isLogging = !this.isLogging;
@@ -71,7 +76,7 @@ export class Tab1Page implements OnInit {
       console.log(this.lastLogs);
     }).catch(error => {
       this.alertService.alertMessage(
-        this.translate.instant('label.error'),
+        this.translate.instant('Error: SaveLog'),
         this.translate.instant(error.message || 'label.error.message.add.record')
       );
     });
@@ -102,28 +107,18 @@ export class Tab1Page implements OnInit {
   }
 
   async scheduleEndOfDayNotification() {
-    const perm = await LocalNotifications.requestPermissions();
-    if (perm.display !== 'granted') {
-      this.alertService.alertMessage('Notificación', 'Permiso de notificaciones no concedido');
-      return;
-    }
+    this.alertService.alertMessage('Entra al scheduleEndOfDayNotification', 'true');
 
     const now = new Date();
     const notifyTime = new Date(now.getTime() + 3 * 60 * 1000); // 1 minuto en el futuro
-    const id = new Date().getTime();
+    const id = Date.now(); // ID único basado en timestamp
     try {
-      await LocalNotifications.schedule({
-        notifications: [
-          {
-            id: id,
-            title: 'Registro activo',
-            body: 'Tenés un registro activo, cerralo antes de las 00:00.',
-            schedule: { at: notifyTime },
-            smallIcon: 'ic_stat_icon_config_sample', // asegúrate de que exista
-            sound: 'default', // mejor usar un sonido válido
-          },
-        ],
-      });
+      await this.notificationService.scheduleNotification(
+        id,
+        'Registro activo',
+        'Tenés un registro activo, cerralo antes de las 00:00.',
+        3 * 60 * 1000
+      );
 
       this.alertService.alertMessage('Notificación', 'Notificación programada correctamente para ' + notifyTime.toLocaleTimeString());
     } catch (error) {
