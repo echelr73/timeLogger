@@ -6,6 +6,7 @@ import { SqlliteManagerService } from './services/sqllite-manager.service';
 import { AlertService } from './services/alert.service';
 import { App as CapacitorApp } from '@capacitor/app';
 import { Router } from '@angular/router';
+import packageJson from '../../package.json';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent {
   public load: boolean;
   deferredPrompt: any = null;
   showInstallButton = false;
+  appVersion = packageJson.version;
 
   constructor( 
     private translate: TranslateService,
