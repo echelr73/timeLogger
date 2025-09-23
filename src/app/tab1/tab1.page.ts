@@ -64,19 +64,12 @@ export class Tab1Page implements OnInit {
         this.translate.instant('label.success'),
         this.translate.instant('label.success.message.add.record')
       );
-      if (!this.isLogging) {
-        this.alertService.alertMessage(
-          this.translate.instant('Va a programar notificacion'),
-          this.translate.instant('true')
-        );
-        await this.scheduleEndOfDayNotification();
-      }
+      await this.scheduleEndOfDayNotification(this.isLogging);
       this.isLogging = !this.isLogging;
       this.getLastLogs();
-      console.log(this.lastLogs);
     }).catch(error => {
       this.alertService.alertMessage(
-        this.translate.instant('Error: SaveLog'),
+        this.translate.instant('label.error'),
         this.translate.instant(error.message || 'label.error.message.add.record')
       );
     });
@@ -106,23 +99,28 @@ export class Tab1Page implements OnInit {
     return `${hours}h ${minutes}m`;
   }
 
-  async scheduleEndOfDayNotification() {
-    this.alertService.alertMessage('Entra al scheduleEndOfDayNotification', 'true');
-
+  async scheduleEndOfDayNotification(isLoggingOn: boolean) {
     const now = new Date();
-    const notifyTime = new Date(now.getTime() + 3 * 60 * 1000); // 1 minuto en el futuro
-    const id = Date.now(); // ID único basado en timestamp
-    try {
-      await this.notificationService.scheduleNotification(
-        id,
-        'Registro activo',
-        'Tenés un registro activo, cerralo antes de las 00:00.',
-        3 * 60 * 1000
-      );
-
-      this.alertService.alertMessage('Notificación', 'Notificación programada correctamente para ' + notifyTime.toLocaleTimeString());
-    } catch (error) {
-      this.alertService.alertMessage('Error', 'No se pudo programar la notificación');
+    const finallyDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 50, 59);
+    const idHours = 1;
+    if (!isLoggingOn) {
+      try {
+        await this.notificationService.scheduleNotification(
+          idHours,
+          this.translate.instant('label.log.active'),
+          this.translate.instant('label.log.message'),
+          60 * 60 * 1000,
+          true
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        await LocalNotifications.cancel({ notifications: [{ id: idHours }] });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 

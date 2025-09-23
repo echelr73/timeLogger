@@ -66,5 +66,13 @@
     "label.no.records": "No hay registros",
     "label.installApp": "¿Quierés instalar la app?",
     "label.installApp.no": "No",
-    "label.installApp.yes": "Instalar"
+    "label.installApp.yes": "Instalar",
+    "label.welcome": "¡Bienvenido!",
+    "label.bd.loaded": "La base de datos cargo correctamente",
+    "label.warning": "¡Atención!",
+    "label.warning.message.notifications": "Para recibir notificaciones, por favor habilita los permisos.",
+    "label.exitApp": "¿Querés salir de la app?",
+    "label.time": "Tiempo",
+    "label.log.active": "Registro activo",
+    "label.log.message": "Tenés un registro activo, hace 1 hora, ¿quieres descansar?"
 }

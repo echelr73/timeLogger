@@ -6,7 +6,7 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 })
 export class NotificationService {
 
-  async scheduleNotification(id: number, title: string, body: string, delayMs: number) {
+  async scheduleNotification(id: number, title: string, body: string, delayMs: number, repeatHourly: boolean = false) {
     const triggerTime = new Date(Date.now() + delayMs);
 
     await LocalNotifications.schedule({
@@ -15,11 +15,8 @@ export class NotificationService {
           id,
           title,
           body,
-          schedule: { at: triggerTime },
-          sound: undefined,
-          attachments: [],
-          actionTypeId: '',
-          extra: null
+          schedule: repeatHourly ? { at: triggerTime, repeats: true, every: 'hour' } : { at: triggerTime },
+          sound: 'default'
         }
       ]
     });

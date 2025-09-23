@@ -53,15 +53,15 @@ export class AppComponent {
           this.load = isReady;
           if (this.load) {
             this.alertService.alertMessage(
-              this.translate.instant('Bienvenido'),
-              this.translate.instant('La base de cargo correctamente')
+              this.translate.instant('label.welcome'),
+              this.translate.instant('label.bd.loaded')
             );
 
             const permission = await LocalNotifications.checkPermissions();
             if (permission.display !== 'granted') {
               this.alertService.alertMessage(
-                this.translate.instant('Atención'),
-                this.translate.instant('Para recibir notificaciones, por favor habilita los permisos en la configuración de la aplicación.')
+                this.translate.instant('label.warning'),
+                this.translate.instant('label.warning.message.notifications')
               );
               await LocalNotifications.requestPermissions();
             }
@@ -69,8 +69,8 @@ export class AppComponent {
       });
       CapacitorApp.addListener('backButton', () => {
         const currentUrl = this.router.url;
-        if (currentUrl.includes('/tabs/tab2')) {
-          const confirmExit = confirm('¿Querés salir de la app?');
+        if (currentUrl.includes('/tabs/tab2') || currentUrl.includes('/tabs/tab1')) {
+          const confirmExit = confirm(this.translate.instant('label.exitApp'));
           if (confirmExit) {
             CapacitorApp.exitApp();
           }
@@ -91,9 +91,7 @@ export class AppComponent {
 
       this.deferredPrompt.userChoice.then((choiceResult: any) => {
         if (choiceResult.outcome === 'accepted') {
-          console.log('PWA instalada ✅');
         } else {
-          console.log('PWA no fue instalada ❌');
         }
         this.deferredPrompt = null;
         this.showInstallButton = false;

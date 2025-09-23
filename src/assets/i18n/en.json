@@ -66,5 +66,13 @@
     "label.no.records": "There are not records",
     "label.installApp": "Do you want to install the app?",
     "label.installApp.no": "No",
-    "label.installApp.yes": "Install"
+    "label.installApp.yes": "Install",
+    "label.welcome": "Welcome!",
+    "label.bd.loaded": "Database loaded correctly",
+    "label.warning": "Attention!",
+    "label.warning.message.notifications": "To receive notifications, please enable permissions.",
+    "label.exitApp": "Do you want to exit the app?",
+    "label.time": "Time",
+    "label.log.active": "Log active",
+    "label.log.message": "You have an active log, one hour ago, do you want to rest?"
 }
